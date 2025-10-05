@@ -10,14 +10,14 @@ pub mod hello_counter {
         let counter = &mut ctx.accounts.counter;
         counter.count = 0;
         counter.user = ctx.accounts.user.key();
-        msg!("Counter initialized NIGGA to 0");
+        msg!("Counter initialized to 0");
         Ok(())
     }
 
     pub fn increment_counter(ctx: Context<IncrementCounter>) -> Result<()> {
         let counter = &mut ctx.accounts.counter;
         counter.count += 1;
-        msg!("Counter incremented NIGGA! Current value: {}", counter.count);
+        msg!("Counter incremented Current value: {}", counter.count);
         Ok(())
     }
 }
