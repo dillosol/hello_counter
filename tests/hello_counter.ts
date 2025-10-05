@@ -41,5 +41,14 @@ describe("hello_counter", () => {
     // ✅ Fetch again and log new count
     account = await program.account.counter.fetch(counter.publicKey);
     console.log("After increment:", account.count.toString());
+
+    // ✅ Decrement the counter
+    await program.methods
+        .decrementCounter()
+        .accounts({
+          counter: counter.publicKey,
+          user: provider.wallet.publicKey,
+        })
+        .rpc();
   });
 });

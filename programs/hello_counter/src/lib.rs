@@ -10,16 +10,24 @@ pub mod hello_counter {
         let counter = &mut ctx.accounts.counter;
         counter.count = 0;
         counter.user = ctx.accounts.user.key();
-        msg!("Counter initialized to 0");
+        msg!("Counter initialized to 0.");
         Ok(())
     }
 
     pub fn increment_counter(ctx: Context<IncrementCounter>) -> Result<()> {
         let counter = &mut ctx.accounts.counter;
         counter.count += 1;
-        msg!("Counter incremented Current value: {}", counter.count);
+        msg!("Counter incremented. Current value: {}", counter.count);
         Ok(())
     }
+
+    pub fn decrement_counter(ctx: Context<DecrementCounter>) -> Result<()> {
+        let counter = &mut ctx.accounts.counter;
+        counter.count = counter.count.saturating_sub(1);
+        msg!("Counter decremented. Current value: {}", counter.count);
+        Ok(())
+    }
+    
 }
 
 #[derive(Accounts)]
@@ -40,6 +48,15 @@ pub struct IncrementCounter<'info> {
 
     pub user: Signer<'info>,
 }
+
+#[derive(Accounts)]
+pub struct DecrementCounter<'info> {
+    #[account(mut, has_one = user)]
+    pub counter: Account<'info, Counter>,
+
+    pub user: Signer<'info>,
+}
+
 
 #[account]
 pub struct Counter {
